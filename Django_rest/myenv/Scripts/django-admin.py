@@ -1,4 +1,4 @@
-#!c:\users\a0102\onedrive - 충남대학교\바탕 화면\git\til\django_rest\myvenv\scripts\python.exe
+#!c:\users\a0102\onedrive - 충남대학교\바탕 화면\git\ai-cashier\django_rest\myenv\scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

@@ -60,7 +60,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000/'
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://localhost:8080',
 ) # script안에서의 리소스 요청을 허용할 도메인 추가
 
 ROOT_URLCONF = 'mysite.urls'
@@ -68,7 +70,9 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'app/build',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,6 +139,12 @@ STATICFILES_DIRS = [
     str(ROOT_DIR.path('front', 'build', 'static')),	# 추가
 ]
 '''
+
+STATICFILES_DIRS = [
+    #str(APPS_DIR.path("static")),	# 기존 존재
+    #str(root.path("frontend/build/static")),
+    os.path.join(STATIC_ROOT,'frontend', 'build', 'static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

@@ -1,8 +1,11 @@
+from django.conf.urls import url, include
 from django.urls import path, include
-from .views import ReactAppView, HelloAPI, ItemAPI, PriceAPI, UpdateAPI, DeleteAPI
+from .views import HelloAPI, ItemAPI, PriceAPI, UpdateAPI, DeleteAPI, ReactAppView
+
 
 urlpatterns = [
     path("", ReactAppView.as_view()),
+    #url(r'^Logic/$', ReactAppView.as_view(template_name='index.html'), name='Logic'),
     path("hello/", HelloAPI),
     path("info/<str:id>", ItemAPI, name="get_info"),
     path("price/<str:id>", PriceAPI, name="get_price"),

@@ -129,5 +129,8 @@ dmypy.json
 .pyre/
 
 
-# Django_rest
-Django_rest/rest_settings.py
+# backend
+backend/rest_settings.py
+
+# myenv
+backend/myenv/

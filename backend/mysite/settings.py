@@ -13,11 +13,14 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import rest_settings as rest_settings
-
+import environ 
+# pip install django-environ
+# 위의 명령 error 시 : python -m pip install django-environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+ROOT_DIR=environ.Path(__file__) -3
+#APPS_DIR=ROOT_DIR.path('backend')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -43,20 +46,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
-    'rest_framework',
-    'corsheaders' ,
+    'api', # 추가
+    'rest_framework', # 추가
+    'corsheaders' , # 추가
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'django.middleware.common.CommonMiddleware', #추가
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware' , 
+    'corsheaders.middleware.CorsMiddleware' , # 추가
 ]
 
 CORS_ORIGIN_WHITELIST = (
@@ -71,7 +74,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'app/build',
+            'frontend/build',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -91,7 +94,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-import rest_settings as rest_settings
 DATABASES = rest_settings.DATABASES
 
 
@@ -132,19 +134,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 '''
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_DIRS = [
     str(APPS_DIR.path("static")),	# 기존 존재
     str(ROOT_DIR.path('front', 'build', 'static')),	# 추가
 ]
-'''
 
+'''
 STATICFILES_DIRS = [
-    #str(APPS_DIR.path("static")),	# 기존 존재
-    #str(root.path("frontend/build/static")),
-    os.path.join(STATIC_ROOT,'frontend', 'build', 'static'),
+    str(ROOT_DIR.path('front', 'build', 'static')),
 ]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -152,3 +156,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+print(BASE_DIR)

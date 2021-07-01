@@ -70,10 +70,13 @@ class ReactAppView(View):
     def get(self, request):
         try:
             with open(os.path.join(str(settings.ROOT_DIR),
-                                    'front',
+                                    'frontend',
                                     'build',
                                     'index.html')) as file:
+                print("error 안남")
                 return HttpResponse(file.read())
 
         except:
+            print("error 남")
             return HttpResponse(status=501,)
+# 참고 : https://jwlee010523.tistory.com/entry/%EC%9E%A5%EA%B3%A0%EC%99%80-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%97%B0%EA%B2%B0%ED%95%98%EA%B8%B0-1?category=847381

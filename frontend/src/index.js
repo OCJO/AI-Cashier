@@ -35,6 +35,7 @@ function reducer(state = itemInfo, action){
       copy[action.payload].quan = 1
       return copy
     }
+    return copy
   }else if (action.type === 'x'){ //삭제기능버튼
     let copy = [...state];
     copy.splice(action.payload,1);

@@ -144,9 +144,13 @@ STATICFILES_DIRS = [
     str(ROOT_DIR.path('front', 'build', 'static')),	# 추가
 ]
 
+STATICFILES_DIRS = [
+    str(root.path("app/build/static")),
+]
+
 '''
 STATICFILES_DIRS = [
-    str(ROOT_DIR.path('front', 'build', 'static')),
+    str(ROOT_DIR.path('frontend/build/static')),
 ]
 
 # Default primary key field type

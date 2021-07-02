@@ -14,3 +14,5 @@ class Item_Info(models.Model):
     class Meta:
         managed = False
         db_table = 'item_info' # db 내부에 테이블 이름 설정
+
+

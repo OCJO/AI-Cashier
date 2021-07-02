@@ -134,3 +134,4 @@ backend/rest_settings.py
 
 # myenv
 backend/myenv/
+backend/api/migrations/

@@ -19,7 +19,8 @@ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-ROOT_DIR=environ.Path(__file__) -3
+ROOT_DIR=BASE_DIR.parent
+
 #APPS_DIR=ROOT_DIR.path('backend')
 
 # Quick-start development settings - unsuitable for production
@@ -74,7 +75,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'frontend/build',
+            os.path.join(ROOT_DIR, 'frontend', 'build'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -150,7 +151,8 @@ STATICFILES_DIRS = [
 
 '''
 STATICFILES_DIRS = [
-    str(ROOT_DIR.path('frontend/build/static')),
+    #str(ROOT_DIR.path('frontend/build/static')),
+    os.path.join(ROOT_DIR, 'frontend', 'build', 'static')
 ]
 
 # Default primary key field type

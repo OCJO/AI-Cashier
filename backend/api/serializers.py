@@ -1,12 +1,12 @@
 
 from rest_framework import serializers
-from .models import Item_Info
+from .models import Item_Info,Item_Stock
 
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item_Info
-        fields = ('pid', 'category_L', 'name','price')
+        fields = ('pid', 'name', 'price')
 
  
 class PriceSerializer(serializers.ModelSerializer):

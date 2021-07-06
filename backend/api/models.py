@@ -10,17 +10,14 @@ DB
 2. 재고 테이블
     - pid / value / modify_date
 '''
-
 class Item_Info(models.Model):
     pid =  models.CharField(max_length=200,null=False, primary_key=True)
     category_L = models.IntegerField()
     name = models.CharField(max_length=200)
     price = models.IntegerField()
 
-    class Meta:
-        managed = False
-        db_table = 'item_info' # db 내부에 테이블 이름 설정
-
+    def __str__(self):
+        return self.title 
 
 class Item_Stock(models.Model):
     pid =  models.CharField(max_length=200,null=False, primary_key=True)

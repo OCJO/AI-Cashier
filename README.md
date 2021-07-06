@@ -9,12 +9,24 @@
 - Frontend : React  
 - Backend : Django
 - AI : Yolov5
-  
-Install
------    
-  
-To Do
------  
-  
 
+DB
+----- 
+1. 상품 정보 테이블
+    - pid / category_L / name / price
+2. 재고 테이블
+    - pid / value / modify_date
+
+
+API
+----- 
+1. ObjectDetectAPI
+    - do : 이미지 파일 저장 / ai 모델 load  
+    - reponse : 결과 이미지 path / 상품 정보들 / 상태코드  
+2. ShoppingCartAPI
+    - do : ID, 수량 , 총 결제 금액 받음 / 재고 테이블 갱신
+    - reponse : ID, 수량 , 총 결제 금액
+
+  
 + backend 폴더 밑에 'rest_settings.py' 넣어야함! -> 로지한테 있음  
+

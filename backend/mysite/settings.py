@@ -20,7 +20,7 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent # C:\Users\~~~~\AI-Cashier\backend
 ROOT_DIR=BASE_DIR.parent # C:\Users\~~~~\AI-Cashier
-
+MEDIA_ROOT = os.path.join(ROOT_DIR, 'frontend', 'public') # C:\Users\~~~~\AI-Cashier\frontend\public
 
 
 SECRET_KEY = rest_settings.SECRET_KEY

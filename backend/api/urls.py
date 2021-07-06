@@ -11,5 +11,6 @@ urlpatterns = [
     path("price/<str:id>/update", UpdateAPI.as_view(), name="update_item"),
     path("price/<str:id>/delete", DeleteAPI.as_view(), name="delete_item"),
     #path("", ReactAppView.as_view()),
-
+    path("shopping/<str:id>", ShoppingCartAPI, name="shopping_cart"),
+    path("object_detect/", ObjectDetectAPI, name="object_detect"),
 ]

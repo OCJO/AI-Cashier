@@ -6,7 +6,7 @@ from .models import Item_Info
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item_Info
-        fields = ('pid', 'category_L', 'name', 'value','price')
+        fields = ('pid', 'category_L', 'name','price')
 
  
 class PriceSerializer(serializers.ModelSerializer):

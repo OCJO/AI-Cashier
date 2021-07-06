@@ -7,10 +7,97 @@ from rest_framework.generics import UpdateAPIView, DestroyAPIView
 from django.views.generic import View
 from django.http import HttpResponse
 from django.conf import settings
+from django.core.files.storage import default_storage
 import os
+import json
 
-from .models import Item_Info
+import uuid
+
+from .models import Item_Info , Item_Stock
 from .serializers import ItemSerializer, PriceSerializer, ValueSerializer
+'''
+API
+----- 
+1. ObjectDetectAPI
+    - do : 이미지 파일 저장 / ai 모델 load  
+    - reponse : 결과 이미지 path / 상품 정보들 / 상태코드  
+2. ShoppingCartAPI
+    - do : ID, 수량 , 총 결제 금액 받음 / 재고 테이블 갱신
+    - reponse : ID, 수량 , 총 결제 금액
+'''
+
+@api_view(['POST'])
+def ObjectDetectAPI(request):
+    try:
+        file = request.FILES['image']
+    except :
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    file_name = str(uuid.uuid4())
+    default_storage.save("img" + '/' + file_name, file)
+
+    file_url = "img/"+file_name+".jpg"
+    
+    # 가데이터 - 실제 : ai 인식 후 결과 
+    ai_result = [{
+    "pid": "id02",
+    "category_L": 1,
+    "name": "can_coke",
+    "price": 1000
+    },{
+    "pid": "id02",
+    "category_L": 1,
+    "name": "can_coke",
+    "price": 1000
+    },{
+    "pid": "id02",
+    "category_L": 1,
+    "name": "can_coke",
+    "price": 1000
+    }]
+    
+    result_data = {"path":file_url, "result":ai_result, "status":200}
+
+    
+    return Response(result_data)
+    
+
+@api_view(['GET', 'PUT', 'POST','DELETE'])
+def ShoppingCartAPI(request,id):
+    try:
+        item = Item_Info.objects.get(pid=id)
+        
+    except Item_Info.DoesNotExist:
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ItemSerializer(item)
+
+        # 둘 중 하나 고르기
+        return Response(serializer.data, status=200)
+        #return Response(json.dumps({"status": 200, "data":serializer.data}))
+        
+    elif request.method == 'PUT':
+        serializer = ItemSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'POST':
+        serializer = ItemSerializer(item, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data , status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # GET 127.0.0.1:8000/api/hello/ 에 요청보내면 hello world print 하는 api임
 @api_view(['GET'])
@@ -47,7 +134,7 @@ class DeleteAPI(DestroyAPIView):
         
     serializer_class = ItemSerializer
 
-# view 로직
+# class view 로직
 class LogicView(APIView):
     
     def get(self, request, format=None):

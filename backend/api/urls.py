@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from django.urls import path, include
-from .views import HelloAPI, ItemAPI, PriceAPI, UpdateAPI, DeleteAPI, ReactAppView
+from .views import *
 from django.views.generic import TemplateView
 
 urlpatterns = [

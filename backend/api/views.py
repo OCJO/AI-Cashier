@@ -64,7 +64,7 @@ urlpatterns = [
 ]
 '''
 
-# 리액트 프론트 연결 api
+# 리액트 프론트 연결 api - 사용 안함
 class ReactAppView(View):
     
     def get(self, request):

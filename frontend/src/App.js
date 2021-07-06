@@ -6,6 +6,7 @@ import Payment from "./PaymentSelectPage.js";
 import Paying from "./PayingPage.js";
 import { Link, Route, Switch} from 'react-router-dom';
 import { useHistory, useParams } from 'react-router-dom';
+import axios from "axios";
 
 function App() {
   let history = useHistory();
@@ -28,13 +29,16 @@ function App() {
       setImgFile(event.target.files[0]); // 파일 상태 업데이트
     }
   }
-
+  axios.get('http://localhost:8000/api/price/id01')
+  .then((Response)=>{console.log(Response.data)})
+  .catch((Error)=>{console.log(Error)})
   return (
     <div className="App">
 
       <Switch>
         {/* 메인페이지 라우팅 */}
         <Route exact path="/">
+        
           <div className="container">
             <div className = "greenvar">1.상품업로드</div>
             <div className = "var">2.상품 항목 확인</div>

@@ -28,49 +28,53 @@ API
 
 @api_view(['POST'])
 def ObjectDetectAPI(request):
-    try:
-        file = request.FILES['image']
-    except :
+    if request.method == 'POST':
+        try:
+            file = request.FILES['image']
+        except :
+            print("파일이 안넘어왔어")
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        print("파일 잘 넘어왔음")
+        file_name = str(uuid.uuid4())
         
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        # front에서 파일 받은 후 저장 
+        default_storage.save("before_img" + '/' + file_name, file)
+        file_url = "frontend/public/before_img/"+file_name+".jpg"
 
-    
-    file_name = str(uuid.uuid4())
-    
-    # front에서 파일 받은 후 저장 
-    default_storage.save("before_img" + '/' + file_name, file)
-    file_url = "frontend/public/before_img/"+file_name+".jpg"
+        '''
+        ai 모델 
+        -> ai 모델에 경로(file_url), 저장될 이름(file_name) 넣어주기. 
+        =>[반환 값] : 1.결과 이미지 url / 2.결과 클래스 리스트
+        '''
 
-    '''
-    ai 모델 
-    -> ai 모델에 경로(file_url), 저장될 이름(file_name) 넣어주기. 
-    =>[반환 값] : 1.결과 이미지 url / 2.결과 클래스 리스트
-    '''
+        # 아래 3 줄 실제로 할 필요 x -> ai 모델안에서 하고 반환해줌. 
+        default_storage.save("img" + '/' + file_name, file)
+        file_url = "img/"+file_name+".jpg"
+        result_list = [0, 1, 1]
+        result_dict={}
+        for x in result_list:
+            if x not in result_dict:
+                result_dict[x]=1
+            else:
+                result_dict[x]=+1
 
-    # 아래 3 줄 실제로 할 필요 x -> ai 모델안에서 하고 반환해줌. 
-    default_storage.save("img" + '/' + file_name, file)
-    file_url = "img/"+file_name+".jpg"
-    result_list = [0, 1, 1]
-    result_dict={}
-    for x in result_list:
-        if x not in result_dict:
-            result_dict[x]=1
-        else:
-            result_dict[x]=+1
+        dict=[]
+        # Item_Info
+        for key,value in result_dict.items():
+            item = Item_Info.objects.get(pid=key)
+            serializer = ItemSerializer(item)
+            #json_data= json.loads(serializer.data)
+            json_data= serializer.data
+            print(json_data)
+            json_data["value"]=value
+            dict.append(json_data)
 
-    dict=[]
-    # Item_Info
-    for key,value in result_dict.items():
-        item = Item_Info.objects.get(pid=key)
-        serializer = ItemSerializer(item)
-        json_data= json.loads(serializer.data)
-        print(json_data)
-        json_data["value"]=value
-        dict.append(json_data)
-
-        
-    result_data = {"path":file_url, "result":dict, "status":200}
-
+        print("=====dict====")
+        print(dict)
+        print("======result_data=====")
+        result_data = {"path":file_url, "result":dict, "status":200}
+        print(result_data)
     
     return Response(json.dumps(result_data))
     

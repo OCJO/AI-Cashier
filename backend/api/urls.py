@@ -7,4 +7,5 @@ urlpatterns = [
 
     path("object_detect/", object_detect_api, name="object_detect"),
     path("payment/", payment_api, name="payment"),
+    
 ]

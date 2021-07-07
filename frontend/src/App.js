@@ -7,8 +7,12 @@ import Paying from "./PayingPage.js";
 import { Link, Route, Switch} from 'react-router-dom';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from "axios";
+import { connect } from 'react-redux';
 
-function App() {
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+function App(props) {
   let history = useHistory();
   const [imgBase64, setImgBase64] = useState(""); // 파일 base64
   const [imgFile, setImgFile] = useState(null);	//파일
@@ -29,16 +33,32 @@ function App() {
       setImgFile(event.target.files[0]); // 파일 상태 업데이트
     }
   }
-  axios.get('http://localhost:8000/api/price/id01')
-  .then((Response)=>{console.log(Response.data)})
-  .catch((Error)=>{console.log(Error)})
+
+  const [textList, textListchange] = useState();	//파일
+
+ 
+  const getDetectResult = (props) => {
+    axios.post('http://localhost:8000/api/object_detect/', {
+      img : {imgBase64}
+    })
+    .then((Response) => {
+      console.log(Response.data)
+      props.dispatch( { type : '인식시작', payload : {id : 0, name : '콜라', price : 1200, quan : 2} } )   
+      // props.state.push({id : 0, name : '콜라', price : 1200, quan : 2})
+      console.log(props.state)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
   return (
     <div className="App">
 
       <Switch>
         {/* 메인페이지 라우팅 */}
         <Route exact path="/">
-        
+
           <div className="container">
             <div className = "greenvar">1.상품업로드</div>
             <div className = "var">2.상품 항목 확인</div>
@@ -55,6 +75,7 @@ function App() {
             $('.img-upload').trigger('click')
           }}>이미지 업로드</button>
           <button className="start-button" onClick={()=>{
+            getDetectResult(props)
             history.push('/paying')
           }}>인식 시작</button>
           <input className="img-upload" type="file" name="imgFile" id="imgFile" onChange={handleChangeFile}/>
@@ -77,4 +98,13 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
+function itemInfoState(state){
+  return {
+      state : state.reducer,
+      imgstate : state.reducer2,
+      // price_state : state.price_reducer
+  }
+}
+
+export default connect(itemInfoState)(App)

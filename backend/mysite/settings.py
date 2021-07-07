@@ -13,10 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import rest_settings as rest_settings
-import environ 
-# pip install django-environ
-# 위의 명령 error 시 : python -m pip install django-environ
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent # C:\Users\~~~~\AI-Cashier\backend
 ROOT_DIR=BASE_DIR.parent # C:\Users\~~~~\AI-Cashier

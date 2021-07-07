@@ -15,12 +15,12 @@ function reducer2(state = detectionImg, action){
 
 
 let itemInfo = [
-    {id : 0, name : '콜라', price : 1200, quan : 2}, 
-    {id : 1, name : '포스틱', price : 1500, quan : 1},
-    {id : 2, name : '사이다', price : 1100, quan : 2},
-    {id : 3, name : '비빔면', price : 1200, quan : 3},
-    {id : 4, name : '허니버터칩', price : 1200, quan : 1},
-    {id : 5, name : '메로나', price : 800, quan : 1},
+    // {id : 0, name : '콜라', price : 1200, quan : 2}, 
+    // {id : 1, name : '포스틱', price : 1500, quan : 1},
+    // {id : 2, name : '사이다', price : 1100, quan : 2},
+    // {id : 3, name : '비빔면', price : 1200, quan : 3},
+    // {id : 4, name : '허니버터칩', price : 1200, quan : 1},
+    // {id : 5, name : '메로나', price : 800, quan : 1},
 ];
 
 function reducer(state = itemInfo, action){
@@ -39,6 +39,10 @@ function reducer(state = itemInfo, action){
   }else if (action.type === 'x'){ //삭제기능버튼
     let copy = [...state];
     copy.splice(action.payload,1);
+    return copy
+  }else if (action.type === '인식시작'){
+    let copy = [...state];
+    copy.push(action.payload)
     return copy
   }  
   return state

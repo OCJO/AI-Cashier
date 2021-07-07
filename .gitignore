@@ -135,3 +135,7 @@ backend/rest_settings.py
 # myenv
 backend/myenv/
 backend/api/migrations/
+
+# idea
+.idea/
+backend/.idea/

@@ -21,10 +21,12 @@ DB
 API
 ----- 
 1. ObjectDetectAPI
+    - request : 이미지 파일
     - do : 이미지 파일 저장 / ai 모델 load  
     - reponse : 결과 이미지 path / 상품 정보들 / 상태코드  
 2. ShoppingCartAPI
-    - do : ID, 수량 , 총 결제 금액 받음 / 재고 테이블 갱신
+    - request : ID, 수량 , 총 결제 금액 받음 
+    - do : 재고 테이블 갱신
     - reponse : ID, 수량 , 총 결제 금액
 
   

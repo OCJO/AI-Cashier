@@ -57,8 +57,9 @@ def ObjectDetectAPI(request):
             if x not in result_dict:
                 result_dict[x]=1
             else:
-                result_dict[x]=+1
-
+                result_dict[x]+=1
+        print("====result_dict====")
+        print(result_dict)
         dict=[]
         # Item_Info
         for key,value in result_dict.items():
@@ -67,6 +68,7 @@ def ObjectDetectAPI(request):
             #json_data= json.loads(serializer.data)
             json_data= serializer.data
             print(json_data)
+            print("key,value=",key,value)
             json_data["value"]=value
             dict.append(json_data)
 

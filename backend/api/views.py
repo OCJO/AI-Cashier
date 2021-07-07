@@ -12,9 +12,10 @@ import os
 import json
 
 import uuid
+import datetime
 
 from .models import Item_Info , Item_Stock
-from .serializers import ItemSerializer, PriceSerializer, ValueSerializer
+from .serializers import ItemSerializer,  ValueSerializer
 
 '''
 1. ObjectDetectAPI
@@ -78,44 +79,50 @@ def object_detect_api(request):
     # 예시: {'path': 'img/6c7236c2-35a1-406d-9921-1b3b58de1a7f.jpg', 'result': [{'pid': '0', 'name': 'pepsi', 'price': 1500, 'value': 1}, {'pid': '1', 'name': 'coke', 'price': 3444, 'value': 1}], 'status': 200}
 
 '''  
-2. shoppingcart_api
+2. payment_api
     - request : ID, 수량 , 총 결제 금액 받음 
     - do : 재고 테이블 갱신
     - reponse : ID, 수량 , 총 결제 금액
 '''
-@api_view(['GET', 'PUT', 'POST','DELETE'])
-def shopping_cart_api(request,id):
-    try:
-        item = Item_Info.objects.get(pid=id)
-        
-    except Item_Info.DoesNotExist:
-        
-        return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'GET':
-        serializer = ItemSerializer(item)
+@api_view(['POST'])
+def payment_api(request):
 
-        # 둘 중 하나 고르기
-        return Response(serializer.data, status=200)
-        #return Response(json.dumps({"status": 200, "data":serializer.data}))
-        
-    elif request.method == 'PUT':
-        serializer = ItemSerializer(item, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'POST':
+        # post 받는 형식대로 추후 추정
+        try:
+            _pid = request.POST['pid']
+            _value = request.POST['value']
+            _total_price = request.POST['total_price']
+        except :
+            print("값들이 안 넘어옴")
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-    elif request.method == 'POST':
-        serializer = ItemSerializer(item, data=request.data)
+        print("_pid",_pid)
+        print("_value",_value)
+        print("_total_price",_total_price)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data , status=status.HTTP_201_CREATED)
+        # 가 데이터
+        _pid = [0,1]
+        _value = [3,4]
+        _total_price = 5600
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # 재고 테이블 갱신
+        for i in range(len(_pid)):
+            this_id=_pid[i]
+            this_value=_value[i]
+            _stock_table = Item_Stock.objects.get(pid=this_id)
+            _stock_table.value = _stock_table.value-this_value
+            now=datetime.datetime.now()
+            _stock_table.modify_date = now.strftime('%Y-%m-%d') # 2021-07-07
+            _stock_table.save()
 
-    elif request.method == 'DELETE':
-        item.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        result_dict={}
+        result_dict["pid"]=_pid
+        result_dict["value"]=_value
+        result_dict["total_price"]=_total_price
 
+        return Response(json.dumps(result_dict) , status=status.HTTP_201_CREATED)
+
+
+ 

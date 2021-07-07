@@ -9,12 +9,8 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = ('pid', 'name', 'price')
 
  
-class PriceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Item_Info
-        fields = ('pid','price')
 
 class ValueSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item_Info
-        fields = ('pid','value')
+        model = Item_Stock
+        fields = ('pid','value','modify_date')

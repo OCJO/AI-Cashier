@@ -21,7 +21,7 @@ function App(props) {
     let reader = new FileReader();
 
     reader.onloadend = () => {
-      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+      // 2. 읽기가 완료되면 아래코드가 실행
       const base64 = reader.result;
       if (base64) {
         setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
@@ -29,7 +29,7 @@ function App(props) {
       
     }
     if (event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]); // 1. 파일을 읽어 버퍼에 저장합니다.
+      reader.readAsDataURL(event.target.files[0]); // 1. 파일을 읽어 버퍼에 저장
       setImgFile(event.target.files[0]); // 파일 상태 업데이트
     }
   }
@@ -43,16 +43,11 @@ function App(props) {
     var fileInput = document.querySelector(".img-upload")
 
     let formData = new FormData();
-    // formData.append("image", fileInput.files[0]);
     formData.append("image", imgFile);
-    // console.log({imgFile})
 
     const config = {
       header: { "content-type": "multipart/form-data" }
     }
-
-    console.log(formData.get('image'))
-    // history.push('/paying')
 
     axios({
       method: "post",
@@ -60,10 +55,9 @@ function App(props) {
       headers: {"content-type": "multipart/form-data",},
       data: formData
     }).then((Response) => {
-      console.log(Response.data)
-      // props.dispatch( { type : '인식시작', payload : {id : 0, name : '콜라', price : 1200, quan : 2} } )   
-      // props.state.push({id : 0, name : '콜라', price : 1200, quan : 2})
-      // console.log(props.state)
+      var table_info = JSON.parse(Response.data)
+      props.dispatch( { type : '인식시작', payload : table_info } )   
+      history.push('/paying') // 결제리스트 페이지로 이동
     })
     .catch((err) => {
       console.log(err)
@@ -93,20 +87,12 @@ function App(props) {
             $('.img-upload').trigger('click')
           }}>이미지 업로드</button>
 
-          {/* <button className="start-button" onClick={()=>{
-            getDetectResult(props)
-            history.push('/paying')
-          }}>인식 시작</button> */}
-
           <form onSubmit={getDetectResult}>
             <input className="img-upload" type="file" id="imgFile" onChange={handleChangeFile}/>
-            <input type="submit" value="인식 시작이염"/>
+            <input className="start-button" type="submit" value="인식 시작"/>
           </form>  
           
-         
-          
         </Route>
-      
 
         {/* 결제상품리스트 확인 페이지 라우팅 */}
         <Route path="/paying">

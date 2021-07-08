@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 function Paying(props){
     let history = useHistory();
     let total_price = 0;
+    let img_src = "/" + props.imgstate
     return(
         <div>
             <div className="container">
@@ -15,7 +16,10 @@ function Paying(props){
             </div>
 
             <div className="lr-container">
-                <div className="left-img"> {props.imgstate} </div>
+                <div className="left-img">
+                    <img src = {img_src} /> 
+                        
+                </div>
                 <div className="right-table">테이블
                     <Table className="table-type">
                         <thead>
@@ -31,22 +35,22 @@ function Paying(props){
                                 props.state.map((a,i)=>{
                                     // 구매총합계산
                                     let a_price = 0;
-                                    a_price = a.price * a.quan;
+                                    a_price = a.price * a.value;
                                     total_price += a_price;
                                     return (
                                         <tr key={i}>
                                             <td> { i+1 } </td>
                                             <td> { a.name } </td>
-                                            <td> { a.price * a.quan }</td>
+                                            <td> { a.price * a.value }</td>
                                             <td> 
-                                                {/* 수량증가버튼 */}
+                                                {/* 수량감소버튼 */}
                                                 <button onClick={()=>{
                                                     props.dispatch( { type : '-', payload : i } )    
                                                 }}>-</button> 
 
-                                                { a.quan } 
+                                                { a.value } 
                                                 
-                                                {/* 수량감소버튼 */}
+                                                {/* 수량증가버튼 */}
                                                 <button onClick={()=>{
                                                     props.dispatch( { type : '+', payload : i } )
                                                 }}>+</button>

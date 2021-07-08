@@ -53,7 +53,7 @@ def object_detect_api(request):
         '''
 
         # 아래 3 줄 실제로 할 필요 x -> ai 모델안에서 하고 반환해줌. 
-        default_storage.save("img" + '/' + file_name, file)
+        default_storage.save("img" + '/' + file_name + '.jpg', file)
         file_url = "img/"+file_name+".jpg"
         result_list = [0, 1, 1]
         result_dict={}

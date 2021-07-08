@@ -12,24 +12,20 @@ import os
 import json
 
 import uuid
+import datetime
 
 from .models import Item_Info , Item_Stock
-from .serializers import ItemSerializer, PriceSerializer, ValueSerializer
-'''
-API
------ 
-1. ObjectDetectAPI
-    - do : 이미지 파일 저장 / ai 모델 load  
-    - reponse : 결과 이미지 path / 상품 정보들 / 상태코드  
-2. ShoppingCartAPI
-    - do : ID, 수량 , 총 결제 금액 받음 / 재고 테이블 갱신
-    - reponse : ID, 수량 , 총 결제 금액
-'''
+from .serializers import ItemSerializer,  ValueSerializer
 
+'''
+1. ObjectDetectAPI
+    - request : 이미지 파일
+    - do : 이미지 파일 저장 / ai 모델 load  
+    - reponse : 결과 이미지 path / 상품 정보들 / 상태코드    
+'''
 @api_view(['POST'])
-def ObjectDetectAPI(request):
-    for key, value in request.FILES.items():
-        print(key, value)
+def object_detect_api(request):
+
     if request.method == 'POST':
         try:
             file = request.FILES['image']
@@ -68,128 +64,72 @@ def ObjectDetectAPI(request):
                 result_dict[x]+=1
         print("====result_dict====")
         print(result_dict)
-        dict=[]
+        data_dict=[]
         # Item_Info
         for key,value in result_dict.items():
             item = Item_Info.objects.get(pid=key)
             serializer = ItemSerializer(item)
-            #json_data= json.loads(serializer.data)
+            
             json_data= serializer.data
             print(json_data)
             print("key,value=",key,value)
             json_data["value"]=value
-            dict.append(json_data)
+            data_dict.append(json_data)
 
         print("=====dict====")
-        print(dict)
+        print(data_dict)
         print("======result_data=====")
-        result_data = {"path":file_url, "result":dict, "status":200}
+        result_data = {"path":file_url, "result":data_dict, "status":200}
         print(result_data)
     
     return Response(json.dumps(result_data))
-    
+    # 예시: {'path': 'img/6c7236c2-35a1-406d-9921-1b3b58de1a7f.jpg', 'result': [{'pid': '0', 'name': 'pepsi', 'price': 1500, 'value': 1}, {'pid': '1', 'name': 'coke', 'price': 3444, 'value': 1}], 'status': 200}
 
-@api_view(['GET', 'PUT', 'POST','DELETE'])
-def ShoppingCartAPI(request,id):
-    try:
-        item = Item_Info.objects.get(pid=id)
-        
-    except Item_Info.DoesNotExist:
-        
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = ItemSerializer(item)
-
-        # 둘 중 하나 고르기
-        return Response(serializer.data, status=200)
-        #return Response(json.dumps({"status": 200, "data":serializer.data}))
-        
-    elif request.method == 'PUT':
-        serializer = ItemSerializer(item, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'POST':
-        serializer = ItemSerializer(item, data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data , status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        item.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-# GET 127.0.0.1:8000/api/hello/ 에 요청보내면 hello world print 하는 api임
-@api_view(['GET'])
-def HelloAPI(request):
-    return Response("hello world!")
-
-
-@api_view(['GET'])
-def ItemAPI(request, id):
-    this_item = Item_Info.objects.get(pid=id)
-    serializer = ItemSerializer(this_item)
-    return Response(serializer.data)
-# => pid=id01에 대해 리턴된 Response: {'pid': id01, 'category_L': 0, 'name': 'can_pepsi', 'value': 5, 'price': 1500}
-
-
-@api_view(['GET'])
-def PriceAPI(request, id):
-    this_item = Item_Info.objects.get(pid=id)
-    serializer = PriceSerializer(this_item)
-    return Response(serializer.data)
-# => pid=id01에 대해 리턴된 Response: {'pid': id01,  'price': 1500}
-
-# update
-class UpdateAPI(UpdateAPIView):
-
-    queryset = Item_Info.objects.all()
-        
-    serializer_class = ValueSerializer
-
-# delete
-class DeleteAPI(DestroyAPIView):
-
-    queryset = Item_Info.objects.all()
-        
-    serializer_class = ItemSerializer
-
-# class view 로직
-class LogicView(APIView):
-    
-    def get(self, request, format=None):
-        item = Item_Info.objects.all()
-        serializer = serializers.PriceSerializer(item, many=True)
-
-        return Response(data=serializer.data)
-# 사용하려면 api/urls.py에 아래 코드 추가해야함
-'''
-from .views import LogicView
-
-urlpatterns = [
-    url(r'^Logic/$', LogicView.as_view(), name='Logic'),
-]
+'''  
+2. payment_api
+    - request : ID, 수량 , 총 결제 금액 받음 
+    - do : 재고 테이블 갱신
+    - reponse : ID, 수량 , 총 결제 금액
 '''
 
-# 리액트 프론트 연결 api - 사용 안함
-class ReactAppView(View):
-    
-    def get(self, request):
+@api_view(['POST'])
+def payment_api(request):
+
+    if request.method == 'POST':
+        # post 받는 형식대로 추후 추정
         try:
-            with open(os.path.join(str(settings.ROOT_DIR),
-                                    'frontend',
-                                    'build',
-                                    'index.html')) as file:
-                print("error 안남")
-                return HttpResponse(file.read())
+            _pid = request.POST['pid']
+            _value = request.POST['value']
+            _total_price = request.POST['total_price']
+        except :
+            print("값들이 안 넘어옴")
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-        except:
-            print("error 남")
-            return HttpResponse(status=501,)
-# 참고 : https://jwlee010523.tistory.com/entry/%EC%9E%A5%EA%B3%A0%EC%99%80-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%97%B0%EA%B2%B0%ED%95%98%EA%B8%B0-1?category=847381
+        print("_pid",_pid)
+        print("_value",_value)
+        print("_total_price",_total_price)
+
+        # 가 데이터
+        _pid = [0,1]
+        _value = [3,4]
+        _total_price = 5600
+
+        # 재고 테이블 갱신
+        for i in range(len(_pid)):
+            this_id=_pid[i]
+            this_value=_value[i]
+            _stock_table = Item_Stock.objects.get(pid=this_id)
+            _stock_table.value = _stock_table.value-this_value
+            now=datetime.datetime.now()
+            _stock_table.modify_date = now.strftime('%Y-%m-%d') # 2021-07-07
+            _stock_table.save()
+
+        result_dict={}
+        result_dict["pid"]=_pid
+        result_dict["value"]=_value
+        result_dict["total_price"]=_total_price
+
+        return Response(json.dumps(result_dict) , status=status.HTTP_201_CREATED)
+
+
+ 

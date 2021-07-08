@@ -36,16 +36,34 @@ function App(props) {
 
   const [textList, textListchange] = useState();	//파일
 
- 
-  const getDetectResult = (props) => {
-    axios.post('http://localhost:8000/api/object_detect/', {
-      img : {imgBase64}
-    })
-    .then((Response) => {
+  // 이미지를 백엔드에 전송하는 함수 
+  const getDetectResult = async (e) => {
+    e.preventDefault()
+
+    var fileInput = document.querySelector(".img-upload")
+
+    let formData = new FormData();
+    // formData.append("image", fileInput.files[0]);
+    formData.append("image", imgFile);
+    // console.log({imgFile})
+
+    const config = {
+      header: { "content-type": "multipart/form-data" }
+    }
+
+    console.log(formData.get('image'))
+    // history.push('/paying')
+
+    axios({
+      method: "post",
+      url:'http://localhost:8000/api/object_detect/',
+      headers: {"content-type": "multipart/form-data",},
+      data: formData
+    }).then((Response) => {
       console.log(Response.data)
-      props.dispatch( { type : '인식시작', payload : {id : 0, name : '콜라', price : 1200, quan : 2} } )   
+      // props.dispatch( { type : '인식시작', payload : {id : 0, name : '콜라', price : 1200, quan : 2} } )   
       // props.state.push({id : 0, name : '콜라', price : 1200, quan : 2})
-      console.log(props.state)
+      // console.log(props.state)
     })
     .catch((err) => {
       console.log(err)
@@ -74,11 +92,19 @@ function App(props) {
           <button className="start-button" onClick={()=>{
             $('.img-upload').trigger('click')
           }}>이미지 업로드</button>
-          <button className="start-button" onClick={()=>{
+
+          {/* <button className="start-button" onClick={()=>{
             getDetectResult(props)
             history.push('/paying')
-          }}>인식 시작</button>
-          <input className="img-upload" type="file" name="imgFile" id="imgFile" onChange={handleChangeFile}/>
+          }}>인식 시작</button> */}
+
+          <form onSubmit={getDetectResult}>
+            <input className="img-upload" type="file" id="imgFile" onChange={handleChangeFile}/>
+            <input type="submit" value="인식 시작이염"/>
+          </form>  
+          
+         
+          
         </Route>
       
 

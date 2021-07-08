@@ -28,10 +28,18 @@ API
 
 @api_view(['POST'])
 def ObjectDetectAPI(request):
+    for key, value in request.FILES.items():
+        print(key, value)
     if request.method == 'POST':
         try:
             file = request.FILES['image']
-        except :
+            print("잘넘어왔음")
+        except KeyError as e :
+            print('예외가 발생했음', e)
+            # for key in request.FILES.keys():
+            #     print(key)
+            # for key, value in request.FILES.items():
+            #     print(key, value)
             print("파일이 안넘어왔어")
             return Response(status=status.HTTP_404_NOT_FOUND)
 

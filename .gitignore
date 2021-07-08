@@ -139,3 +139,7 @@ backend/api/migrations/
 # idea
 .idea/
 backend/.idea/
+
+# frontend
+frontend/public/before_img/
+frontend/public/img/

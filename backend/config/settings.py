@@ -19,6 +19,7 @@ import yaml
 
 from api.object_detection.yolo_tester import YOLO
 
+
 # C:\Users\~~~~\AI-Cashier\backend
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = BASE_DIR.parent  # C:\Users\~~~~\AI-Cashier

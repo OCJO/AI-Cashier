@@ -19,9 +19,11 @@ import yaml
 
 from api.object_detection.yolo_tester import YOLO
 
-BASE_DIR = Path(__file__).resolve().parent.parent # C:\Users\~~~~\AI-Cashier\backend
-ROOT_DIR=BASE_DIR.parent # C:\Users\~~~~\AI-Cashier
-MEDIA_ROOT = os.path.join(ROOT_DIR, 'frontend', 'public') # C:\Users\~~~~\AI-Cashier\frontend\public
+# C:\Users\~~~~\AI-Cashier\backend
+BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = BASE_DIR.parent  # C:\Users\~~~~\AI-Cashier
+# C:\Users\~~~~\AI-Cashier\frontend\public
+MEDIA_ROOT = os.path.join(ROOT_DIR, 'frontend', 'public')
 
 
 SECRET_KEY = rest_settings.SECRET_KEY
@@ -41,27 +43,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api', # 추가
-    'rest_framework', # 추가
-    'corsheaders' , # 추가
+    'api',  # 추가
+    'rest_framework',  # 추가
+    'corsheaders',  # 추가
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware' , # 추가
+    'corsheaders.middleware.CorsMiddleware',  # 추가
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware', #추가
+    'django.middleware.common.CommonMiddleware',  # 추가
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+
 ]
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 
-) # script안에서의 리소스 요청을 허용할 도메인 추가
+)  # script안에서의 리소스 요청을 허용할 도메인 추가
 
 ROOT_URLCONF = 'config.urls'
 
@@ -131,8 +133,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-   
-    os.path.join(ROOT_DIR, 'frontend', 'build', 'static') # C:\Users\~~~~\AI-Cashier\frontend\build\static
+
+    # C:\Users\~~~~\AI-Cashier\frontend\build\static
+    os.path.join(ROOT_DIR, 'frontend', 'build', 'static')
 ]
 
 # Default primary key field type
@@ -142,9 +145,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True  
+CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOW_METHODS = (         
+CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
     'OPTIONS',
@@ -153,7 +156,7 @@ CORS_ALLOW_METHODS = (
     'PUT',
 )
 
-CORS_ALLOW_HEADERS = (         
+CORS_ALLOW_HEADERS = (
     'accept',
     'accept-encoding',
     'authorization',
@@ -182,4 +185,3 @@ model_property = dict({
 })
 
 yolo = YOLO(model_property)
-

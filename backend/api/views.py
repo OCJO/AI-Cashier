@@ -7,9 +7,11 @@ from rest_framework.generics import UpdateAPIView, DestroyAPIView
 from django.views.generic import View
 from django.http import HttpResponse
 from django.conf import settings
+from config.settings import yolo
 from django.core.files.storage import default_storage
 import os
 import json
+import cv2
 
 import uuid
 import datetime
@@ -29,33 +31,40 @@ def object_detect_api(request):
     if request.method == 'POST':
         try:
             file = request.FILES['image']
-            print("잘넘어왔음")
+            print("잘 넘어옴")
         except KeyError as e :
-            print('예외가 발생했음', e)
+            print('예외가 발생 : ', e)
             # for key in request.FILES.keys():
             #     print(key)
             # for key, value in request.FILES.items():
             #     print(key, value)
-            print("파일이 안넘어왔어")
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        print("파일 잘 넘어왔음")
+        
         file_name = str(uuid.uuid4())
         
         # front에서 파일 받은 후 저장 
-        default_storage.save("before_img" + '/' + file_name, file)
-        file_url = "frontend/public/before_img/"+file_name+".jpg"
+        default_storage.save("before_img" + '/' + file_name+".jpg", file)
+        test_file_url = "../frontend/public/before_img/"+file_name+".jpg"
+        output_url= "../frontend/public/img/"+file_name+".jpg"
+        # for frontend
+        result_file_url = "img/"+file_name+".jpg"
 
         '''
         ai 모델 
-        -> ai 모델에 경로(file_url), 저장될 이름(file_name) 넣어주기. 
+        -> ai 모델에 경로(test_file_url), 저장될 이름(file_name) 넣어주기. 
         =>[반환 값] : 1.결과 이미지 url / 2.결과 클래스 리스트
         '''
+        
+        # '이미지 경로' 를 넣으면 OD 바운딩 박스가 그려진 이미지 데이터와 검출된 객체의 정보를 return
+       
+        image_imshow, result_list = yolo.object_detection(test_file_url, output_url)  # 테스트 이미지의 하위 경로와 위에 있는 파일이름
+        print("인식결과 : ",result_list)
 
-        # 아래 3 줄 실제로 할 필요 x -> ai 모델안에서 하고 반환해줌. 
-        default_storage.save("img" + '/' + file_name + '.jpg', file)
-        file_url = "img/"+file_name+".jpg"
-        result_list = [0, 1, 1]
+        # 처리한 이미지 저장
+        #cv2.imshow("../frontend/public/img", image_imshow)
+        #cv2.waitKey(0)
+
         result_dict={}
         for x in result_list:
             if x not in result_dict:
@@ -71,15 +80,12 @@ def object_detect_api(request):
             serializer = ItemSerializer(item)
             
             json_data= serializer.data
-            print(json_data)
-            print("key,value=",key,value)
+
             json_data["value"]=value
             data_dict.append(json_data)
 
-        print("=====dict====")
-        print(data_dict)
         print("======result_data=====")
-        result_data = {"path":file_url, "result":data_dict, "status":200}
+        result_data = {"path":result_file_url, "result":data_dict, "status":200}
         print(result_data)
     
     return Response(json.dumps(result_data))

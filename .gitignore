@@ -132,8 +132,12 @@ dmypy.json
 # backend
 backend/rest_settings.py
 
-# myenv
-backend/myenv/
+# ai-model
+backend/api/object_detection/model_property/
+backend/api/object_detection/output/
+
+# venv
+backend/myvenv/
 backend/api/migrations/
 
 # idea
@@ -143,3 +147,5 @@ backend/.idea/
 # frontend
 frontend/public/before_img/
 frontend/public/img/
+
+

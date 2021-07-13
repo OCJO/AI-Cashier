@@ -74,8 +74,10 @@ def object_detect_api(request):
                 result_dict[x] = 1
             else:
                 result_dict[x] += 1
+
         print("====result_dict====")
         print(result_dict)
+
         data_dict = []
         # Item_Info
         for key, value in result_dict.items():
@@ -83,7 +85,6 @@ def object_detect_api(request):
             serializer = ItemSerializer(item)
 
             json_data = serializer.data
-
             json_data["value"] = value
             data_dict.append(json_data)
 
@@ -95,6 +96,7 @@ def object_detect_api(request):
     return Response(json.dumps(result_data))
     # 예시: {'path': 'img/6c7236c2-35a1-406d-9921-1b3b58de1a7f.jpg', 'result': [{'pid': '0', 'name': 'pepsi', 'price': 1500, 'value': 1}, {'pid': '1', 'name': 'coke', 'price': 3444, 'value': 1}], 'status': 200}
 
+
 '''
 2. add_item_api
     [get]  
@@ -104,34 +106,37 @@ def object_detect_api(request):
     - do : id에 해당하는 가격 가져옴
     - reponse : 가격  
 '''
-@api_view(['GET', 'PUT', 'POST','DELETE'])
+
+
+@api_view(['GET', 'POST'])
 def add_item_api(request):
 
     if request.method == 'GET':
-        print("get 받았어")
+
         data_dict = {}
-        category=['캔음료','페트음료','컵라면','봉지과자','아이스크림']
-        for idx in range(5):
-            data_dict[category[idx]]=add_small_category(idx)
+        # 대분류 카테고리
+        large_category = ['캔음료', '페트음료', '컵라면', '봉지과자', '아이스크림']
+
+        # '대분류' 별 '소분류 정보(name:id)' 저장
+        for idx in range(len(large_category)):
+            data_dict[category[idx]] = add_small_category(idx)
 
         print("======result_data=====")
         result_data = {"result": data_dict, "status": 200}
         print(result_data)
         return Response(json.dumps(result_data))
-        
-        
-    
+
     elif request.method == 'POST':
         try:
             _pid = request.POST['pid']
-
         except:
             print("값이 안넘어옴")
             return Response(status=status.HTTP_404_NOT_FOUND)
-        print("넘어온 pid 값 : ",_pid)
+        print("넘어온 pid 값 : ", _pid)
+
         item = Item_Info.objects.get(pid=_pid)
-        serializer = ItemSerializer(item) 
-        json_data=serializer.data
+        serializer = ItemSerializer(item)
+        json_data = serializer.data
         price_ = json_data["price"]
 
         result_data = {"price": price_, "status": 200}
@@ -139,19 +144,21 @@ def add_item_api(request):
         return Response(json.dumps(result_data))
 
 # 소분류 저장 / add_item_api 내에서 사용
+
+
 def add_small_category(id):
-    
+
     item = Item_Info.objects.filter(category_L=id)
-    serializer = AllItemSerializer(item,many=True)
+    serializer = AllItemSerializer(item, many=True)
 
     json_data = serializer.data
-    
-    dict_={}
+
+    dict_ = {}
     for data in json_data:
-        pid_= data["pid"] 
-        name_= data["name"]
-        dict_[pid_]=name_
-        
+        pid_ = data["pid"]
+        name_ = data["name"]
+        dict_[name_] = pid_  # key : name , value : id
+
     return dict_
 
 

@@ -17,10 +17,11 @@ import uuid
 import datetime
 
 from .models import Item_Info, Item_Stock
-from .serializers import ItemSerializer,  ValueSerializer
+from .serializers import AllItemSerializer, ItemSerializer,  ValueSerializer
 
 '''
-1. ObjectDetectAPI
+1. object_detect_api
+    [post]
     - request : 이미지 파일
     - do : 이미지 파일 저장 / ai 모델 load  
     - reponse : 결과 이미지 path / 상품 정보들 / 상태코드    
@@ -94,9 +95,68 @@ def object_detect_api(request):
     return Response(json.dumps(result_data))
     # 예시: {'path': 'img/6c7236c2-35a1-406d-9921-1b3b58de1a7f.jpg', 'result': [{'pid': '0', 'name': 'pepsi', 'price': 1500, 'value': 1}, {'pid': '1', 'name': 'coke', 'price': 3444, 'value': 1}], 'status': 200}
 
+'''
+2. add_item_api
+    [get]  
+    - reponse : 대분류(category_L) 마다의 name, id / 상태코드  
+    [post]
+    - request : id
+    - do : id에 해당하는 가격 가져옴
+    - reponse : 가격  
+'''
+@api_view(['GET', 'PUT', 'POST','DELETE'])
+def add_item_api(request):
+
+    if request.method == 'GET':
+        print("get 받았어")
+        data_dict = {}
+        category=['캔음료','페트음료','컵라면','봉지과자','아이스크림']
+        for idx in range(5):
+            data_dict[category[idx]]=add_small_category(idx)
+
+        print("======result_data=====")
+        result_data = {"result": data_dict, "status": 200}
+        print(result_data)
+        return Response(json.dumps(result_data))
+        
+        
+    
+    elif request.method == 'POST':
+        try:
+            _pid = request.POST['pid']
+
+        except:
+            print("값이 안넘어옴")
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        print("넘어온 pid 값 : ",_pid)
+        item = Item_Info.objects.get(pid=_pid)
+        serializer = ItemSerializer(item) 
+        json_data=serializer.data
+        price_ = json_data["price"]
+
+        result_data = {"price": price_, "status": 200}
+        print(result_data)
+        return Response(json.dumps(result_data))
+
+# 소분류 저장 / add_item_api 내에서 사용
+def add_small_category(id):
+    
+    item = Item_Info.objects.filter(category_L=id)
+    serializer = AllItemSerializer(item,many=True)
+
+    json_data = serializer.data
+    
+    dict_={}
+    for data in json_data:
+        pid_= data["pid"] 
+        name_= data["name"]
+        dict_[pid_]=name_
+        
+    return dict_
+
 
 '''  
-2. payment_api
+3.. payment_api
     - request : ID, 수량 , 총 결제 금액 받음 
     - do : 재고 테이블 갱신
     - reponse : ID, 수량 , 총 결제 금액

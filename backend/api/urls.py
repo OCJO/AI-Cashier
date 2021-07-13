@@ -4,7 +4,7 @@ from .views import payment_api, object_detect_api, add_item_api
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    
+
     # 이미지 인식 버튼 - 결과 이미지 전송
     path("object_detect/", object_detect_api, name="object_detect"),
 

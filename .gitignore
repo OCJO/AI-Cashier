@@ -143,6 +143,7 @@ backend/api/migrations/
 # idea
 .idea/
 backend/.idea/
+backend/api/input.txt
 
 # frontend
 frontend/public/before_img/

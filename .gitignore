@@ -136,6 +136,11 @@ backend/rest_settings.py
 backend/api/object_detection/model_property/
 backend/api/object_detection/output/
 
+# db 데이터 저장용 
+backend/api/input.txt
+backend/api/data_input.py 
+# views.py에 data_input.py 내용 복붙해서 돌리면 됨
+
 # venv
 backend/myvenv/
 backend/api/migrations/

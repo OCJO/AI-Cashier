@@ -119,7 +119,7 @@ def add_item_api(request):
 
         # '대분류' 별 '소분류 정보(name:id)' 저장
         for idx in range(len(large_category)):
-            data_dict[category[idx]] = add_small_category(idx)
+            data_dict[large_category[idx]] = add_small_category(idx)
 
         print("======result_data=====")
         result_data = {"result": data_dict, "status": 200}
@@ -128,8 +128,14 @@ def add_item_api(request):
 
     elif request.method == 'POST':
         try:
-            _pid = request.POST['pid']
+            data = json.loads(request.body)
+            _pid = data["pid"]
+            
+            print("try - request값", request.POST)
+            print(_pid)
+            print(type(_pid))
         except:
+            print("except - request값", request.POST)
             print("값이 안넘어옴")
             return Response(status=status.HTTP_404_NOT_FOUND)
         print("넘어온 pid 값 : ", _pid)
@@ -173,6 +179,7 @@ def add_small_category(id):
 @api_view(['POST'])
 def payment_api(request):
 
+    # {"pid" : [0, 1], "id" : [3, 4], "total_price" : 5000}
     if request.method == 'POST':
         # post 받는 형식대로 추후 추정
         try:

@@ -39,21 +39,16 @@ function App(props) {
   // 이미지를 백엔드에 전송하는 함수 
   const getDetectResult = async (e) => {
     e.preventDefault()
-
     var fileInput = document.querySelector(".img-upload")
 
     let formData = new FormData();
     formData.append("image", imgFile);
 
-    const config = {
-      header: { "content-type": "multipart/form-data" }
-    }
-
     axios({
       method: "post",
       url:'http://localhost:8000/api/object_detect/',
       headers: {"content-type": "multipart/form-data",},
-      data: formData
+      data: formData 
     }).then((Response) => {
       var table_info = JSON.parse(Response.data)
       props.dispatch( { type : '인식시작', payload : table_info } )   

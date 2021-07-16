@@ -27,7 +27,7 @@ let itemInfo = ""
     // {id : 4, name : '허니버터칩', price : 1200, value : 1},
     // {id : 5, name : '메로나', price : 800, value : 1},
 
-
+// 리팩토링시에 switch문법으로 적용할 예정
 function reducer(state = itemInfo, action){
   if (action.type === '+'){ //수량증가버튼
     let copy = [...state];
@@ -50,6 +50,10 @@ function reducer(state = itemInfo, action){
     copy = action.payload['result']
     // copy.push(action.payload)
     return copy
+  }else if (action.type === '테이블추가'){
+    let copy = [...state]
+    copy.push(action.payload)
+    return copy 
   }  
   return state
 }

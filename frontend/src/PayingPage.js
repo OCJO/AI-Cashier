@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-function Paying(props){
+function Paying(props) {
     let history = useHistory();
     let total_price = 0;
     let img_src = "/" + props.imgstate
@@ -21,19 +21,19 @@ function Paying(props){
         setModalOpen(false);
     }
 
-    return(
+    return (
         <div>
             <div className="container">
-                <div className = "var">1.상품업로드</div>
-                <div className = "greenvar">2.상품 항목 확인</div>
-                <div className = "var">3.결제 수단</div>
+                <div className="var">1.상품업로드</div>
+                <div className="greenvar">2.상품 항목 확인</div>
+                <div className="var">3.결제 수단</div>
             </div>
             {/* 결제 단계 배너 */}
 
             <div className="lr-container">
                 <div className="left-img">
-                    <img src = {img_src} /> 
-                        
+                    <img src={img_src} />
+
                 </div>
                 <div className="right-table">테이블
                     <Table className="table-type">
@@ -47,33 +47,33 @@ function Paying(props){
                         </thead>
                         <tbody>
                             {
-                                props.state.map((a,i)=>{
+                                props.state.map((a, i) => {
                                     // 구매총합계산
                                     let a_price = 0;
                                     a_price = a.price * a.value;
                                     total_price += a_price;
                                     return (
                                         <tr key={i}>
-                                            <td> { i+1 } </td>
-                                            <td> { a.name } </td>
-                                            <td> { a.price * a.value }</td>
-                                            <td> 
+                                            <td> {i + 1} </td>
+                                            <td> {a.name} </td>
+                                            <td> {a.price * a.value}</td>
+                                            <td>
                                                 {/* 수량감소버튼 */}
-                                                <button onClick={()=>{
-                                                    props.dispatch( { type : '-', payload : i } )    
-                                                }}>-</button> 
+                                                <button onClick={() => {
+                                                    props.dispatch({ type: '-', payload: i })
+                                                }}>-</button>
 
-                                                { a.value } 
-                                                
+                                                {a.value}
+
                                                 {/* 수량증가버튼 */}
-                                                <button onClick={()=>{
-                                                    props.dispatch( { type : '+', payload : i } )
+                                                <button onClick={() => {
+                                                    props.dispatch({ type: '+', payload: i })
                                                 }}>+</button>
 
                                                 {/* 품목제거버튼 */}
-                                                <button onClick={()=>{
+                                                <button onClick={() => {
                                                     // a.deleteRow(i)
-                                                    props.dispatch( { type : 'x', payload : i } )
+                                                    props.dispatch({ type: 'x', payload: i })
                                                 }}>x</button>
                                             </td>
                                         </tr>
@@ -89,42 +89,42 @@ function Paying(props){
                 </div>
             </div>
             {/* 결제테이블과 이미지 업로드  */}
-    
+
             <div>
-                <button className="start-button" onClick={()=>{
+                <button className="start-button" onClick={() => {
                     console.log(props.state)
                     openModal()
                     axios({
                         method: "get",
-                        url:'http://localhost:8000/api/add_item/',
-                      }).then((Response) => {
+                        url: 'http://localhost:8000/api/add_item/',
+                    }).then((Response) => {
                         let itemCategoryInfo = JSON.parse(Response.data)
                         setCategoryInfo(itemCategoryInfo['result'])
-                      })
-                      .catch((err) => {
-                        console.log(err)
-                      })
+                    })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                     // setCategoryInfo(b)
                 }}>항목추가</button>
-                <button className="start-button" onClick={()=>{
+                <button className="start-button" onClick={() => {
                     history.push('/payment')
                 }}>결제하기</button>
                 {/* 항목추가하기, 결제하기 버튼 */}
-                
+
             </div>
 
             <div>
-                <Modal open={modalOpen} close={closeModal} table={props.state} categoryInfo={categoryInfo}/>
+                <Modal open={modalOpen} close={closeModal} table={props.state} categoryInfo={categoryInfo} />
             </div>
         </div>
 
     )
 };
 
-function itemInfoState(state){
+function itemInfoState(state) {
     return {
-        state : state.reducer,
-        imgstate : state.reducer2,
+        state: state.reducer,
+        imgstate: state.reducer2,
         // price_state : state.price_reducer
     }
 }

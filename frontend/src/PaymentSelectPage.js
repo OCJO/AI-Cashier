@@ -5,11 +5,22 @@ function Payment(){
     let history = useHistory();
     return(
         <div>
-            <div className="container">
-                <div className = "var">1.상품업로드</div>
-                <div className = "var">2.상품 항목 확인</div>
-                <div className = "greenvar">3.결제 수단</div>
+            {/* header */}
+            {/* 결제 단계 배너 */}
+            <div className="header">
+                <div className="container">
+                    <div className="header_banner">
+                        <span className="header_name">OCJO 졸업 프로젝트</span>
+                        <div className="pay_cource">
+                            <div className="left_var">1.시작</div>
+                            <div className="center_var">2.인식</div>
+                            <div className="right_var_green">3.결제</div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            {/*--결제 단계 배너 */}
+            {/*-- header */}
 
             <div className="button-container">
                 <div><button className="left-button">신용카드</button></div>

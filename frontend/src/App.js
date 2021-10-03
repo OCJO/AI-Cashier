@@ -1,11 +1,11 @@
 import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import React, { useState } from 'react';
 import $ from "jquery";
 import Payment from "./PaymentSelectPage.js";
 import Paying from "./PayingPage.js";
 import Main from "./new_mainpage.js";
-
+import './Main.css';
 import { Link, Route, Switch } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from "axios";
@@ -68,29 +68,62 @@ function App(props) {
 
         {/* 메인페이지 라우팅 */}
         <Route exact path="/">
-          <div className="container">
-            <div className="greenvar">1.상품업로드</div>
-            <div className="var">2.상품 항목 확인</div>
-            <div className="var">3.결제 수단</div>
+          {/* header */}
+          <div className="header">
+            <div className="container">
+              <div className="header_banner">
+                <span className="header_name">OCJO 졸업 프로젝트</span>
+                <div className="pay_cource">
+                  <div className="left_var_green">1.시작</div>
+                  <div className="center_var">2.인식</div>
+                  <div className="right_var">3.결제</div>
+                </div>
+              </div>
+            </div>
           </div>
+          {/*-- header */}
 
-          <div className="my-alert">구매할 상품의 이미지를 등록하세요.</div>
+          {/* contents */}
+          <div className="contents">
+            <div className="container">
+              <div className="cont-cont">
 
-          <div className="img-border">
-            <img className='' src={imgBase64}></img>
+                {/* 상품업로드, 인식시작버튼 */}
+                <div className="column left_cont">
+                  <h3>안녕하세요. <br /> <b>셀프 무인 계산대</b>입니다.</h3>
+                  <div className="button_container">
+                    <button className="button" onClick={() => {
+                      $('.img-upload').trigger('click')
+                    }}>상품 업로드</button>
+
+                    <form onSubmit={getDetectResult}> 
+                      <input className="img-upload" type="file" id="imgFile" onChange={handleChangeFile}/>
+                      <input className="button" type="submit" value="인식 시작" />
+                    </form>
+                  </div>
+                </div>
+                {/*-- 상품업로드, 인식시작버튼 */}
+
+                {/* 이미지 입력란 */}
+                <div className="column right_cont">
+                  <div className="img_border">
+                    <img className='reco_img' src={imgBase64} alt="main image error"></img>
+                  </div>
+                </div>
+                {/*--이미지 입력란 */}    
+
+              </div>
+            </div>
           </div>
+          {/*-- contents */}
 
-          <div className="container">
-            <button className="start-button" onClick={() => {
-              $('.img-upload').trigger('click')
-            }}>이미지 업로드</button>
-
-            <form onSubmit={getDetectResult}>
-              <input className="img-upload" type="file" id="imgFile" onChange={handleChangeFile} />
-              <input className="start-button" type="submit" value="인식 시작" />
-            </form>
+          {/* footer */}
+          <div className="footer">
+            <div className="container">footer</div>
           </div>
-          
+          {/*-- footer */}
+
+         
         </Route>
         {/* //메인페이지 라우팅 */}
 
@@ -127,3 +160,7 @@ function itemInfoState(state) {
 }
 
 export default connect(itemInfoState)(App)
+
+// 보완사항
+// - 상품업로드나 인식시작 버튼에 hover효과 주기
+// - 이미지 들어가는 border부분에 원래 default 이미지 넣어주기

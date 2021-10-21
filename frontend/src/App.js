@@ -16,7 +16,7 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 function App(props) {
   let history = useHistory();
-  const [imgBase64, setImgBase64] = useState(""); // 파일 base64
+  const [imgBase64, setImgBase64] = useState("/static/default_img.jpg"); // 파일 base64
   const [imgFile, setImgFile] = useState(null);	//파일
 
   const handleChangeFile = (event) => {
@@ -119,7 +119,9 @@ function App(props) {
 
           {/* footer */}
           <div className="footer">
-            <div className="container">footer</div>
+            <div className="container">
+              <span className="header_name">OCJO 졸업 프로젝트</span>
+            </div>
           </div>
           {/*-- footer */}
 
@@ -162,5 +164,7 @@ function itemInfoState(state) {
 export default connect(itemInfoState)(App)
 
 // 보완사항
-// - 상품업로드나 인식시작 버튼에 hover효과 주기
+// - 상품업로드나 인식시작 버튼에 hover효과 주기 (o)
 // - 이미지 들어가는 border부분에 원래 default 이미지 넣어주기
+// 원래 이미지가 존재하다가 상품업로드버튼을 누르고 이미지를 넣어줄때 기본 이미지가 사라지고 선택된 사진이 들어가도록
+// 업로드 취소, 인식시작 버튼을 왼쪽, 이미지박스안에 '결제할 상품 이미지 업로드하기'문구와 버튼

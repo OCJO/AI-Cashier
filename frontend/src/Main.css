@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /* 레이아웃 */
-.App {width: 100%; background-color:aliceblue}
+.App {width: 100%; background-color:rgb(255, 237, 211)}
 .header {width: 100%; height: 200px;}
 .contents {width: 100%; height: 600px;}
 .footer {width: 100%; height: 200px;}
@@ -10,27 +10,65 @@
 .container {width: 1200px; margin: 0 auto; height: inherit; background: rgba(255,255,255,0.3);}
 
 /* 헤더 */
-.green {background-color: mediumvioletred;}
+.green {background-color: #FF5C58}
 .header_banner {position: relative; width: 100%;} 
-.header_banner .header_name {position: absolute; left: 80px; top: 15px; font-size: 20px; color:#222; font-weight: bold;}
-.header_banner .pay_cource {border: 1px solid #2c2c2c; width: 900px; height:70px; margin-left: 280px; display: flex; align-items: center; justify-content: space-evenly; font-size: 20px; border-radius: 70px;}  
-.header_banner .pay_cource .left_var {border-top-left-radius: 70px; border-bottom-left-radius: 70px; background-color:lightgray; width: 300px; height:70px; color: white; line-height: 70px; text-align: center;} 
-.header_banner .pay_cource .left_var_green {border-top-left-radius: 70px; border-bottom-left-radius: 70px; background-color: mediumvioletred; width: 300px; height:70px; color: white; line-height: 70px; text-align: center;}
-.header_banner .pay_cource .center_var {border-left: 1px solid #2c2c2c; border-right: 1px solid #2c2c2c; background-color: lightgray; width: 300px; height:70px;  color: white; line-height: 70px; text-align: center;}
-.header_banner .pay_cource .center_var_green {border-left: 1px solid #2c2c2c; border-right: 1px solid #2c2c2c; background-color: mediumvioletred; width: 300px; height:70px;  color: white; line-height: 70px; text-align: center;}
-.header_banner .pay_cource .right_var {border-top-right-radius : 70px; border-bottom-right-radius : 70px; background-color: lightgray; width: 300px; height:70px;  color: white; line-height: 70px; text-align: center;}
-.header_banner .pay_cource .right_var_green {border-top-right-radius : 70px; border-bottom-right-radius : 70px; background-color: mediumvioletred; width: 300px; height:70px;  color: white; line-height: 70px; text-align: center;}
+.header_banner .header_name {position: absolute; left: 80px; top: 10px; font-size: 20px; color:#222; font-weight: bold;}
+.header_banner .pay_cource {border: 0px solid #2c2c2c; width: 900px; height:50px; margin-left: 280px; display: flex; align-items: center; justify-content: space-evenly; font-size: 20px; border-radius: 70px;}  
+.header_banner .pay_cource .left_var {border-top-left-radius: 70px; border-bottom-left-radius: 70px; background-color:rgb(254, 143, 143); width: 300px; height:50px; color: white; line-height: 50px; text-align: center;} 
+.header_banner .pay_cource .left_var_green {border-top-left-radius: 70px; border-bottom-left-radius: 70px; background-color: #FF5C58; width: 300px; height:50px; color: white; line-height: 50px; text-align: center;}
+.header_banner .pay_cource .center_var {border-left: 1px solid #d1c3c3; border-right: 1px solid #d1c3c3; background-color: rgb(254, 143, 143); width: 300px; height:50px;  color: white; line-height: 50px; text-align: center;}
+.header_banner .pay_cource .center_var_green {border-left: 1px solid #d1c3c3; border-right: 1px solid #d1c3c3; background-color: #FF5C58; width: 300px; height:50px;  color: white; line-height: 50px; text-align: center;}
+.header_banner .pay_cource .right_var {border-top-right-radius : 70px; border-bottom-right-radius : 70px; background-color: rgb(254, 143, 143); width: 300px; height:50px;  color: white; line-height: 50px; text-align: center;}
+.header_banner .pay_cource .right_var_green {border-top-right-radius : 70px; border-bottom-right-radius : 70px; background-color: #FF5C58; width: 300px; height:50px;  color: white; line-height: 50px; text-align: center;}
 
 /* 콘텐츠 */
 .cont-cont .column {float: left; width: 600px; height: 600px;}
 .cont-cont .column h3 {margin-top: 150px; margin-bottom: 10px; font-size: 35px; text-align: left; padding-left: 80px;}
 .cont-cont .column h3 b {color: rgb(228, 136, 102);}
+.right_cont .reco_img { width: 416px; height: 416px; object-fit: fill;}
 .right_cont .img_border {border: 2px solid rgb(228, 136, 102); max-width: 416px; height: 416px; width: 100%; margin-top: 50px; margin-left: 100px; }
-.left_cont .button_container {  display: flex; align-items: center; justify-content: center;}
-.left_cont .button_container .button {margin: 50px 20px;width: 200px;display: inline-block;padding: 15px 15px;font-size: 20px;text-align: center;color: #fff; background-color:mediumvioletred; border-radius: 15px;}
+.left_cont .button_container {display: flex; align-items: center; justify-content: center;}
+.left_cont .button_container .button {border: 0px solid #2c2c2c; margin: 50px 20px;width: 200px; display: inline-block;padding: 15px 15px;font-size: 20px;text-align: center;color: #fff; background-color:rgb(255, 92, 88); border-radius: 15px;}
 .left_cont .button_container .button:hover {background-color: rgb(224, 95, 177);}
 /* .img_border img {width: 100%;} */
 
 /* 인식 페이지 */
 .paying_img {border: 2px solid rgb(228, 136, 102); margin-top: 50px;}
-.table-type {margin-top: 50px;}
+.table-type {margin-top: 50px; }
+
+
+/* 표 */
+/* table {display: block; width: 550px; border-collapse: collapse; border: 1px solid; table-layout: fixed;}
+table thead {display: flex; width: 100%;}
+table thead tr{display: flex; width: 100%;}
+table thead tr th{ background: rgba(9,41,196,0.15); border: 1px solid; flex: 1;}
+table tbody {display: flex; width: 100%; height: 375px; flex-direction: column; overflow-y: scroll;}
+table tbody tr {display: flex;}
+table tbody tr td {border: 1px solid; flex: 1; overflow: scroll; white-space: nowrap;} */
+
+/* 풋터 */
+/* .footer .container {position: relative; width: 100%;}
+.footer .container .header_name {position: absolute; right: 400px; top: 10px; font-size: 20px; color:#222; font-weight: bold;} */
+table {
+    width: 550px;
+    height: 416px;
+    border-collapse: collapse;
+    border: 1px solid;
+    /* table-layout: fixed; */
+}
+table thead tr th {
+    background: rgba(9, 41, 196, 0.15);
+    border: 1px solid;
+}
+/* table tbody {
+    height: 375px;
+} */
+table tbody tr:nth-last-child(2) {
+    height: 100%;
+}
+table tbody tr td {
+    border: 1px solid;
+}
+table tbody tr td::-webkit-scrollbar {
+    display: none;
+}

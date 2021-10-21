@@ -178,7 +178,7 @@ yolov3_property = model_environment['yolov3_model']
 '''
 model_property = dict({
     "config_file": "api/object_detection/output/customed_yolov3.cfg",
-    "weight_file": "api/object_detection/model_property/yolo-model-10.weights",
+    "weight_file": "api/object_detection/model_property/yolo-model-9.weights",
     "labels": "api/object_detection/model_property/object.tags",
     "conf": 0.6,  # conf : Confidence threshold for predictions
     "nms": 0.4,  # nms : NMS threshold

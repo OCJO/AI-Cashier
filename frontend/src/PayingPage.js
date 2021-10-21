@@ -116,6 +116,9 @@ function Paying(props) {
                                         })
                                     }
                                     <tr>
+                                        <td colSpan={4}></td>
+                                    </tr>
+                                    <tr>
                                         <td>총합</td>
                                         <td colSpan="3">{total_price}원</td>
                                     </tr>

@@ -96,20 +96,20 @@ function Paying(props) {
                                                         {/* 수량감소버튼 */}
                                                         <button onClick={() => {
                                                             props.dispatch({ type: '-', payload: i })
-                                                        }}>-</button>
+                                                        }}> - </button>
 
                                                         {a.value}
 
                                                         {/* 수량증가버튼 */}
                                                         <button onClick={() => {
                                                             props.dispatch({ type: '+', payload: i })
-                                                        }}>+</button>
+                                                        }}> + </button>
 
                                                         {/* 품목제거버튼 */}
                                                         <button onClick={() => {
                                                             // a.deleteRow(i)
                                                             props.dispatch({ type: 'x', payload: i })
-                                                        }}>x</button>
+                                                        }}> x </button>
                                                     </td>
                                                 </tr>
                                             )

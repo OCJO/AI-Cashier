@@ -6,6 +6,7 @@ import Payment from "./PaymentSelectPage.js";
 import Paying from "./PayingPage.js";
 import Main from "./new_mainpage.js";
 import './Main.css';
+import Loader from './Loader';
 import { Link, Route, Switch } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from "axios";
@@ -15,6 +16,8 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 
 function App(props) {
+  const [loading, setLoading] = useState(null);
+
   let history = useHistory();
   const [imgBase64, setImgBase64] = useState("/static/default_img.jpg"); // 파일 base64
   const [imgFile, setImgFile] = useState(null);	//파일
@@ -42,10 +45,9 @@ function App(props) {
   const getDetectResult = async (e) => {
     e.preventDefault()
     var fileInput = document.querySelector(".img-upload")
-
     let formData = new FormData();
     formData.append("image", imgFile);
-
+    setLoading(true);
     axios({
       method: "post",
       url: 'http://localhost:8000/api/object_detect/',
@@ -58,9 +60,10 @@ function App(props) {
     })
       .catch((err) => {
         console.log(err)
+        setLoading(false);
       })
   }
-
+  
   return (
     <div className="App">
 
@@ -98,8 +101,9 @@ function App(props) {
 
                     <form onSubmit={getDetectResult}> 
                       <input className="img-upload" type="file" id="imgFile" onChange={handleChangeFile}/>
-                      <input className="button" type="submit" value="인식 시작" />
+                      <input className="button" type="submit" value="인식 시작"/>
                     </form>
+                    { loading ? <Loader/> : "" }
                   </div>
                 </div>
                 {/*-- 상품업로드, 인식시작버튼 */}
@@ -143,10 +147,11 @@ function App(props) {
         </Route>
         {/* //결제수단 선택 페이지 라우팅 */}
 
-        새로운 메인페이지 제작중입니다.
+        {/* 새로운 메인페이지 제작중입니다. */}
         <Route path="/main">
           <Main></Main>
         </Route>
+
       </Switch>
 
     </div>

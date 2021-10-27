@@ -129,7 +129,7 @@
   border: 3px solid red;
 }
 
-.table-type{
+/* .table-type{
   border-collapse: separate; 
   border-spacing: 1px; 
   text-align: center; 
@@ -152,7 +152,7 @@
   vertical-align: top; 
   border-bottom: 1px solid #ccc; 
   background: #eee;
-}
+} */
 
 .button-container{
   display: flex;

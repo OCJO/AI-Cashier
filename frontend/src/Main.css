@@ -38,37 +38,19 @@
 
 
 /* 표 */
-/* table {display: block; width: 550px; border-collapse: collapse; border: 1px solid; table-layout: fixed;}
-table thead {display: flex; width: 100%;}
-table thead tr{display: flex; width: 100%;}
-table thead tr th{ background: rgba(9,41,196,0.15); border: 1px solid; flex: 1;}
-table tbody {display: flex; width: 100%; height: 375px; flex-direction: column; overflow-y: scroll;}
-table tbody tr {display: flex;}
-table tbody tr td {border: 1px solid; flex: 1; overflow: scroll; white-space: nowrap;} */
+.table-type{border-collapse: separate; border-spacing: 1px; text-align: center; line-height: 1.5; margin: 50px 10px;}
+.table-type th{width: 155px; padding: 10px; font-weight: bold; vertical-align: top; color: #fff; background: #FF5C58;}
+.table-type td{ width: 155px; padding: 10px; vertical-align: top; border-bottom: 1px solid #ccc; background: rgb(240, 238, 238);}
+.table-type {border-collapse: collapse;}
+.table-type tbody {border-collapse: collapse;}
+table {width: 550px; height: 530px; border-collapse: collapse; border: 1px solid; /* table-layout: fixed; */}
+table thead tr th {border: 1px solid; border-collapse: collapse;}
+table tbody tr:nth-last-child(2) {height: 100%; border-collapse: collapse;}
+table tbody tr td {border: 1px solid white; border-collapse: collapse;}
+table tbody tr td::-webkit-scrollbar {display: none;}
+table tbody tr:last-child {font-weight: bold;}
 
 /* 풋터 */
 /* .footer .container {position: relative; width: 100%;}
 .footer .container .header_name {position: absolute; right: 400px; top: 10px; font-size: 20px; color:#222; font-weight: bold;} */
-table {
-    width: 550px;
-    height: 416px;
-    border-collapse: collapse;
-    border: 1px solid;
-    /* table-layout: fixed; */
-}
-table thead tr th {
-    background: rgba(9, 41, 196, 0.15);
-    border: 1px solid;
-}
-/* table tbody {
-    height: 375px;
-} */
-table tbody tr:nth-last-child(2) {
-    height: 100%;
-}
-table tbody tr td {
-    border: 1px solid;
-}
-table tbody tr td::-webkit-scrollbar {
-    display: none;
-}
+

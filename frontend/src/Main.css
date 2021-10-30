@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+
+/* 리셋 */
+/* 폰트 초기화 */
+/* body, input, textarea, select, button, table {font-family:'Nanum Gothic', AppleSDGothicNeo-Regular,'Malgun Gothic','맑은 고딕',dotum,'돋움',sans-serif; color: #222; font-size: 13px; line-height: 1.5;} */
+
 /* 레이아웃 */
 .App {width: 100%; background-color:rgb(255, 237, 211)}
 .header {width: 100%; height: 200px;}
@@ -28,7 +33,7 @@
 .right_cont .reco_img { width: 416px; height: 416px; object-fit: fill;}
 .right_cont .img_border {border: 2px solid rgb(228, 136, 102); max-width: 416px; height: 416px; width: 100%; margin-top: 50px; margin-left: 100px; }
 .left_cont .button_container {display: flex; align-items: center; justify-content: center;}
-.left_cont .button_container .button {border: 0px solid #2c2c2c; margin: 50px 20px;width: 200px; display: inline-block;padding: 15px 15px;font-size: 20px;text-align: center;color: #fff; background-color:rgb(255, 92, 88); border-radius: 15px;}
+.left_cont .button_container .button {border: 0px solid #2c2c2c; margin: 50px 20px;width: 200px; display: inline-block;padding: 15px 15px;font-size: 20px;text-align: center;color: #fff; background-color:rgb(255, 92, 88);}
 .left_cont .button_container .button:hover {background-color: rgb(224, 95, 177);}
 /* .img_border img {width: 100%;} */
 
@@ -50,7 +55,14 @@ table tbody tr td {border: 1px solid white; border-collapse: collapse;}
 table tbody tr td::-webkit-scrollbar {display: none;}
 table tbody tr:last-child {font-weight: bold;}
 
-/* 풋터 */
-/* .footer .container {position: relative; width: 100%;}
-.footer .container .header_name {position: absolute; right: 400px; top: 10px; font-size: 20px; color:#222; font-weight: bold;} */
 
+/* 결제하기 버튼 모달 */
+/* 색조합 https://colorhunt.co/palette/a2d2fffef9efff865efee440 */
+.pay_border {height: 350px; width: 100%;}
+.paytotal_border {position: relative; border: 1px solid rgb(231, 229, 229); height: 50px; width: 250px; margin: 50px 75px; border-radius: 5px;}
+.paytotal_border .paytotal_border_text {border-right: 1px solid rgb(231, 229, 229);; position: absolute; height: 100%; width: 70px; line-height: 50px; text-align: left; padding-left: 10px; background: rgb(231, 229, 229); border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
+.paytotal_border .paytotal_border_total {position: absolute; line-height: 50px; left: 80px; width: 160px; font-size: 25px; font-weight: bold;}
+.paytext1 {text-align: left; margin-left: 15px;}
+.paybutton {position: relative; top: 5px; height: 200px; width: 100%;}
+.paybutton .cash {position: absolute; border: 1px solid; height: 100px; width: 120px; left: 75px; top: 50px; line-height: 100px; border-radius: 5px; font-weight: bold; background:#A2D2FF; color: #fff; font-size: 25px;} 
+.paybutton .card {position: absolute; border: 1px solid; height: 100px; width: 120px; right: 75px; top: 50px; line-height: 100px; border-radius: 5px; font-weight: bold; background:#FF865E; color: #fff; font-size: 25px;}

@@ -6,6 +6,7 @@ import './App.css';
 import './Main.css';
 import Modal from "./Modal.js";
 import axios from "axios";
+import Modal2 from './Modal2';
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
@@ -13,6 +14,8 @@ function Paying(props) {
     let history = useHistory();
     let total_price = 0;
     let img_src = "/" + props.imgstate
+
+    // 항목추가 모달
     const [categoryInfo, setCategoryInfo] = useState('');
     const [modalOpen, setModalOpen] = useState(false); // 모달창 플래그
     const openModal = () => {
@@ -20,6 +23,15 @@ function Paying(props) {
     }
     const closeModal = () => {
         setModalOpen(false);
+    }
+
+    // 결제하기 모달
+    const [modalOpen2, setModalOpen2] = useState(false); // 모달창 플래그
+    const openModal2 = () => {
+        setModalOpen2(true);
+    }
+    const closeModal2 = () => {
+        setModalOpen2(false);
     }
 
     return (
@@ -64,7 +76,8 @@ function Paying(props) {
                                     // setCategoryInfo(b)
                                 }}>항목추가</button>
                                 <button className="button" onClick={() => {
-                                    history.push('/payment')
+                                    openModal2()                               
+                                    // history.push('/payment')
                                 }}>결제하기</button>
                                 {/* 항목추가하기, 결제하기 버튼 */}
                             </div>      
@@ -138,10 +151,17 @@ function Paying(props) {
             {/*-- footer */}
 
             
-
+            {/* 항목추가 모달 */}
             <div>
                 <Modal open={modalOpen} close={closeModal} table={props.state} categoryInfo={categoryInfo} />
             </div>
+            {/* -- 항목추가 모달  */}
+
+            {/* 결제하기 모달 */}
+            <div>
+                <Modal2 open={modalOpen2} close={closeModal2} table={props.state} categoryInfo={categoryInfo} />
+            </div>
+            {/* --결제하기 모달 */}
         </div>
 
     )

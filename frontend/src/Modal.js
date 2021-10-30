@@ -100,7 +100,7 @@ const Modal = (props) => {
                             close()
                         }}> 취소 </button>
 
-                        <div className="modal-footer"></div>
+                        {/* <div className="modal-footer"></div> */}
 
                     </div>
                     {/* 추가, 취소버튼  */}
